@@ -6,7 +6,7 @@ use app\models\Brand;
 use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\UploadedFile;
-
+use flyok666\qiniu\Qiniu;
 class BrandController extends Controller
 {
     public function actionIndex()
@@ -43,19 +43,19 @@ class BrandController extends Controller
             //绑定数据
             $model->load($data);
             //创建文件上传对象
-            $model->imgFile  = UploadedFile::getInstance($model,'imgFile');
+           // $model->imgFile  = UploadedFile::getInstance($model,'imgFile');
             //验证
             if($model->validate()){
-                if($model->imgFile){
+               // if($model->imgFile){
                     //拼接文件上传路径
-                    $filePath = "images/brand/".time().".".$model->imgFile->extension;
+                   // $filePath = "images/brand/".time().".".$model->imgFile->extension;
                     //保存文件
-                    $model->imgFile->saveAs($filePath,false);
+                   // $model->imgFile->saveAs($filePath,false);
                     //给数据库logo字段添加数据
-                    $model->logo = $filePath;
-                }else{
-                    $model->logo = "images/brand/timg.jpg";
-                }
+                   // $model->logo = $filePath;
+                //}else{
+                   // $model->logo = "images/brand/timg.jpg";
+              //  }
 
                 //保存数据
                 $model->save();
@@ -118,6 +118,35 @@ class BrandController extends Controller
         //提示 跳转
         \yii::$app->session->setFlash('success','删除成功');
         return $this->redirect(['brand/index']);
+    }
+
+
+    public function actionUpload()
+    {
+//var_dump($_FILES);exit;
+        $config = [
+            'accessKey'=>'Osj-uMhn6tcT59aCVr6sdcwBQmNId7llWon-CG5M',
+            'secretKey'=>'-7zWHssJdkal65FsoG5rP1e16dPodsZ0sR-g4xMI',
+            'domain'=>'http://oz03xrxoj.bkt.clouddn.com/',
+            'bucket'=>'php0712',
+            'area'=>Qiniu::AREA_HUANAN
+        ];
+
+
+
+        $qiniu = new Qiniu($config);
+        $key = time();
+        $qiniu->uploadFile($_FILES['file']['tmp_name'],$key);
+        $url = $qiniu->getLink($key);
+
+        $info = [
+            'code'=>0,
+            'url'=>$url,
+            'attachment'=>$url,
+
+
+        ];
+        exit(json_encode($info));
     }
 
 }

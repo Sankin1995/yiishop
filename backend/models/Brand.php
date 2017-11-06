@@ -19,7 +19,7 @@ class Brand extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public $imgFile;
+//    public $imgFile;
     public static function tableName()
     {
         return 'brand';
@@ -35,7 +35,8 @@ class Brand extends \yii\db\ActiveRecord
             [['intro'], 'string'],
             [['sort', 'status'], 'integer'],
             [['name'], 'string', 'max' => 20],
-            [['imgFile'],'file','extensions' => ['gif','png','jpg'],'skipOnEmpty' => true]
+            //[['imgFile'],'file','extensions' => ['gif','png','jpg'],'skipOnEmpty' => true]
+            [['logo'],'string']
         ];
     }
 
@@ -48,10 +49,20 @@ class Brand extends \yii\db\ActiveRecord
             'id' => 'id',
             'name' => '品牌名称',
             'intro' => '品牌简介',
-            'logo' => 'logo',
+            'logo' => '图片上传',
             'sort' => '排序',
             'status' => '状态',
-            'imgFile' => '上传图片'
+            //'imgFile' => '上传图片'
         ];
+    }
+
+    public function getImage()
+    {
+        if(substr($this->logo,0,7)=='http://'){
+            return $this->logo;
+        }else{
+            return "@web/".$this->logo;
+        }
+
     }
 }
