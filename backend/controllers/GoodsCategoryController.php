@@ -12,8 +12,7 @@ class GoodsCategoryController extends \yii\web\Controller
     public function actionIndex()
     {
         //得到模型对象
-        $goods_cate = GoodsCategory::find()
-        ->all();
+        $goods_cate = GoodsCategory::find()->orderBy('tree,lft')->all();
         return $this->render('index',['goods_cate'=>$goods_cate]);
     }
 
@@ -40,15 +39,6 @@ class GoodsCategoryController extends \yii\web\Controller
                     //找到父级id
                     $parent_id = $cates->parent_id;
                     $parent = GoodsCategory::findOne(['id'=>$parent_id]);
-                    if($parent->depth==0){
-                        $cates->name="-----".$cates->name;
-                    }
-                    if($parent->depth==1){
-                        $cates->name="----------".$cates->name;
-                    }
-                    if($parent->depth==2){
-                        $cates->name="------------------".$cates->name;
-                    }
                     $cates->prependTo($parent);
                     \yii::$app->session->setFlash('success','添加分类成功');
                     return $this->redirect(['goods-category/index']);
@@ -81,17 +71,12 @@ class GoodsCategoryController extends \yii\web\Controller
             if($oneCate->validate()){
                 $parent_id = $oneCate->parent_id;
                 $parent = GoodsCategory::findOne($parent_id);
-//                if($parent->lft==1 && $parent->rgt==2){
-//
-//                }
-//                $oneCate->makeRoot();
                     try{
-                          $oneCate->makeRoot();
+                          $oneCate->prependTo($parent);
                     }catch (Exception $e){
                         \yii::$app->session->setFlash('danger','修改分类错误');
                         return $this->redirect(['goods-category/index','id'=>$id]);
                     }
-
                 \yii::$app->session->setFlash('success','编辑分类成功');
                 return $this->redirect(['goods-category/index']);
             }

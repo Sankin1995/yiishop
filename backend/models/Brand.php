@@ -65,4 +65,5 @@ class Brand extends \yii\db\ActiveRecord
         }
 
     }
+
 }
