@@ -8,36 +8,50 @@ use app\models\GoodsCategory;
 use app\models\GoodsDayCount;
 use app\models\GoodsGallery;
 use app\models\GoodsIntro;
+use app\models\GoodsSearchForm;
 use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
 class GoodsController extends \yii\web\Controller
 {
-    public function actionIndex()
+    public function actions()
     {
+        return [
+            'upload' => [
+                'class' => 'kucha\ueditor\UEditorAction',
 
-        $goods = Goods::find()->all();
-        $request = \yii::$app->request;
-
-            $min = $request->get('min');
-            $max = $request->get('max');
-            $keyWords = $request->get('keyWords');
+            ]
+        ];
+    }
+    public function actionIndex()
+        {
             //创建一个查询对象
             $query = Goods::find();
-            if($min>0){
-                $query->andWhere("shop_price >= {$min}");
-            }
-            if($max>0){
-                $query->andWhere("shop_price <= {$max}");
-            }
-            if(isset($keyWords)){
-                $query->andWhere("name like '%{$keyWords}%'");
-            }
+            //$goods = Goods::find()->all();
+            $request = \yii::$app->request;
+                $data = $request->get('GoodsSearchForm');
+//                $min = $request->get();
+//                $max = $request->get('max');
+//                $keyWords = $request->get('keyWords');
+                $min = $data['min'];
+                $max = $data['max'];
+                $keyWords = $data['keyWords'];
+//                var_dump($min,$max,$keyWords);exit;
 
+                if($min>0){
+                    $query->andWhere("shop_price >= {$min}");
+                }
+                if($max>0){
+                    $query->andWhere("shop_price <= {$max}");
+                }
+                if(isset($keyWords)){
+                    $query->andWhere("name like '%{$keyWords}%' or sn like '%{$keyWords}%'");
+                }
+                $goods = $query->all();
 
-        return $this->render('index',['goods'=>$goods]);
+            return $this->render('index',['goods'=>$goods]);
 
-    }
+        }
 
 
     public function actionAdd()
@@ -89,10 +103,10 @@ class GoodsController extends \yii\web\Controller
                     $dayCount->save();
 //                    var_dump($dayCount->day,$dayCount->count);exit;
                 }
-//                else{
-//                    $counts->count += 1;
-//                    $dayCount->save();
-//                }
+                else{
+                    $counts->count += 1;
+                    $counts->save();
+                }
             }
             $goods_id = $goods->attributes['id'];
             $pathArr=$gallery->path;
@@ -180,10 +194,7 @@ class GoodsController extends \yii\web\Controller
     {
         //查询出所有对应数据 逐一删除
         $good = Goods::findOne($id);
-
         $gallery = GoodsGallery::findOne(['goods_id'=>$id]);
-//        echo "<pre>";
-//        var_dump($gallery);exit;
         $intro = GoodsIntro::findOne($id);
         $good->delete();
         $intro->delete();

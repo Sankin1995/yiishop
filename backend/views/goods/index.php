@@ -1,9 +1,12 @@
 <?php
-$model = new \app\models\GoodsSearchForm();
+$model = new \backend\models\GoodsSearchForm();
 $form = \yii\bootstrap\ActiveForm::begin([
+        'method'=>'get',
         'options'=>['class'=>'form-inline pull-right',
-        'method'=>'get'
-        ]]);
+//        'action'=>'goods/index',
+        ],
+
+]);
 echo $form->field($model,'min')->label(false)->textInput(['size'=>5,'placeholder'=>'最低价']);
 echo "-";
 echo $form->field($model,'max')->label(false)->textInput(['size'=>5,'placeholder'=>'最高价']);
@@ -14,6 +17,8 @@ echo \yii\bootstrap\Html::submitButton('搜索',['class'=>'btn','style'=>'margin
 \yii\bootstrap\ActiveForm::end();
 ?>
 <?=\yii\bootstrap\Html::a('添加商品',['goods/add'],['class'=>'btn btn-info'])?>
+<?php echo '&nbsp';?>
+<?=\yii\bootstrap\Html::a('显示所有商品',['goods/index'],['class'=>'btn btn-primary'])?>
 <table class="table">
     <tr>
         <th>id</th>
