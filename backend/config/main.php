@@ -7,6 +7,7 @@ $params = array_merge(
 );
 
 return [
+    'defaultRoute'=>'admin/index',
     'language'=>'zh-CN',
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),

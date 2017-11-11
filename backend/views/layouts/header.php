@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 <header class="main-header">
 
-    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg">' . "京西商城" . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
 
@@ -230,7 +230,7 @@ use yii\helpers\Html;
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                        <span class="hidden-xs">Alexander Pierce</span>
+                        <span class="hidden-xs">个人中心</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
@@ -244,25 +244,25 @@ use yii\helpers\Html;
                             </p>
                         </li>
                         <!-- Menu Body -->
-                        <li class="user-body">
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Followers</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Sales</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Friends</a>
-                            </div>
-                        </li>
+<!--                        <li class="user-body">-->
+<!--                            <div class="col-xs-4 text-center">-->
+<!--                                <a href="#">Followers</a>-->
+<!--                            </div>-->
+<!--                            <div class="col-xs-4 text-center">-->
+<!--                                <a href="#">Sales</a>-->
+<!--                            </div>-->
+<!--                            <div class="col-xs-4 text-center">-->
+<!--                                <a href="#">Friends</a>-->
+<!--                            </div>-->
+<!--                        </li>-->
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="logout" class="btn btn-default btn-flat">切换用户</a>
                             </div>
                             <div class="pull-right">
                                 <?= Html::a(
-                                    'Sign out',
+                                    '退出登录',
                                     ['admin/logout'],
                                     ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
                                 ) ?>

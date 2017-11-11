@@ -30,8 +30,11 @@ class AdminController extends Controller
             if(!empty($admin_user)){
                 //验证密码
                 if(\yii::$app->security->validatePassword($model->password_hash,$admin_user->password_hash)){
-                    \yii::$app->user->login($admin_user,$model->rememberMe?3600*24:0);
-                    return $this->redirect('admin/list');
+                    \yii::$app->user->login($admin_user,$model->rememberMe ? 3600*24 : 0);
+                    //更改最后登录时间
+                    $admin_user->last_login_at = time();
+                    $admin_user->save();
+                    return $this->redirect(['admin/list']);
                 }else{
 //                    \yii::$app->session->setFlash('danger','密码错误');
                     $model->addError("password_hash","密码错误");
@@ -91,7 +94,27 @@ class AdminController extends Controller
     public function actionLogout()
     {
         \yii::$app->user->logout();
-        return $this->redirect(['admin/login']);
+        return $this->redirect(['admin/index']);
+    }
+
+    public function actionEdit($id)
+    {
+        $adminOne = Admin::findOne($id);
+        //判断是否是总管理员
+        $request = \yii::$app->request;
+        if($request->isPost){
+            //绑定数据
+            $adminOne->load($request->post());
+            if($adminOne->validate()){
+                $adminOne->password_hash = \yii::$app->security->generatePasswordHash($adminOne->password_hash);
+                $adminOne->auth_key = \yii::$app->security->generateRandomString();
+                $adminOne->save();
+                \yii::$app->session->setFlash('success','编辑成功');
+                return $this->redirect(['admin/list']);
+            }
+        }
+
+        return $this->render('edit',['model'=>$adminOne]);
     }
 
 
