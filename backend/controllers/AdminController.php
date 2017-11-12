@@ -42,7 +42,7 @@ class AdminController extends Controller
             }
         }
 //        var_dump($model);exit;
-        return $this->render('login',['model'=>$model]);
+        return $this->renderPartial('login',['model'=>$model]);
     }
 
     public function actionList()
@@ -75,6 +75,20 @@ class AdminController extends Controller
             $admin->last_login_ip = $_SERVER['REMOTE_ADDR'];
             //保存数据
             $admin->save();
+
+            //创建RBAC组件对象
+           $authManager = \yii::$app->authManager;
+           if($admin->username == "admin"){
+               $role = $authManager->getRole('administrator');
+               $authManager->assign($role,$admin->id);
+           }else{
+               //注册用户都为普通管理员 找到普通管理员角色
+               $role = $authManager->getRole('adminuser');
+               //将当前用户追加到普通管理员角色中
+               $authManager->assign($role,$admin->id);
+           }
+
+
             \yii::$app->session->setFlash('success','注册成功');
             //自动登录
 //            \yii::$app->user->login($admin,3600*24);

@@ -239,8 +239,12 @@ use yii\helpers\Html;
                                  alt="User Image"/>
 
                             <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
+                                欢迎用户：<?php
+
+                                if(isset(\yii::$app->user->identity->username)){
+                                    echo \yii::$app->user->identity->username;
+                                }
+                                ?>
                             </p>
                         </li>
                         <!-- Menu Body -->

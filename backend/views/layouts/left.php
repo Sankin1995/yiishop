@@ -72,6 +72,16 @@
 
                         ],
                     ],
+                    [
+                        'label' => '权限管理',
+                        'icon' => 'fa fa-users',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => '权限', 'icon' => 'file-code-o', 'url' => ['permission/index'],],
+                            ['label' => '角色', 'icon' => 'file-code-o', 'url' => ['role/index'],],
+                        ],
+                    ],
+//                    \backend\components\RbacMenu::menu1(),
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['admin/index'], 'visible' => Yii::$app->user->isGuest],

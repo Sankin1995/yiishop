@@ -1,8 +1,3 @@
-
-
-
-
-
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -23,7 +18,11 @@ $fieldOptions2 = [
     'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
 ];
 ?>
-
+<link href="/assets/18df53f1/css/bootstrap.css" rel="stylesheet">
+<link href="/css/site.css" rel="stylesheet">
+<link href="/assets/9420dd43/css/font-awesome.min.css" rel="stylesheet">
+<link href="/assets/d46c44b0/css/AdminLTE.min.css" rel="stylesheet">
+<link href="/assets/d46c44b0/css/skins/_all-skins.min.css" rel="stylesheet">
 <div class="login-box">
     <div class="login-logo">
         <a href="#"><b>管理员登录</b></a>
