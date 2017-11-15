@@ -33,60 +33,8 @@
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
-                'items' => [
-                    [
-                        'label' => '文章管理',
-                        'icon' => 'fa fa-file-text',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '文章列表', 'icon' => 'file-code-o', 'url' => ['article/index'],],
-                            ['label' => '文章分类列表', 'icon' => 'dashboard', 'url' => ['article-category/index'],],
+                'items' => mdm\admin\components\MenuHelper::getAssignedMenu(yii::$app->user->id),
 
-                        ],
-                    ],
-                    [
-                        'label' => '品牌管理',
-                        'icon' => 'fa fa-barcode',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '品牌列表', 'icon' => 'file-code-o', 'url' => ['brand/index'],],
-                        ],
-                    ],
-                    [
-                        'label' => '商品管理',
-                        'icon' => 'fa fa-jpy',
-//                        'aria-hidden'=>true,
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '商品列表', 'icon' => 'file-code-o', 'url' => ['goods/index'],],
-                            ['label' => '商品分类列表', 'icon' => 'dashboard', 'url' => ['goods-category/index'],],
-
-                        ],
-                    ],
-                    [
-                        'label' => '用户管理',
-                        'icon' => 'fa fa-users',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '用户列表', 'icon' => 'file-code-o', 'url' => ['admin/list'],],
-
-                        ],
-                    ],
-                    [
-                        'label' => '权限管理',
-                        'icon' => 'fa fa-users',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '权限', 'icon' => 'file-code-o', 'url' => ['permission/index'],],
-                            ['label' => '角色', 'icon' => 'file-code-o', 'url' => ['role/index'],],
-                        ],
-                    ],
-//                    \backend\components\RbacMenu::menu1(),
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
-                    ['label' => 'Login', 'url' => ['admin/index'], 'visible' => Yii::$app->user->isGuest],
-
-                ],
             ]
         ) ?>
 

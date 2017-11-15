@@ -15,6 +15,7 @@ use yii\web\Controller;
 
 class AdminController extends Controller
 {
+//    public $defaultAction = 'index';
     public function actionIndex()
     {
         //创建表单模型对象
@@ -78,15 +79,15 @@ class AdminController extends Controller
 
             //创建RBAC组件对象
            $authManager = \yii::$app->authManager;
-           if($admin->username == "admin"){
-               $role = $authManager->getRole('administrator');
-               $authManager->assign($role,$admin->id);
-           }else{
-               //注册用户都为普通管理员 找到普通管理员角色
-               $role = $authManager->getRole('adminuser');
-               //将当前用户追加到普通管理员角色中
-               $authManager->assign($role,$admin->id);
-           }
+//           if($admin->username == "admin"){
+//               $role = $authManager->getRole('administrator');
+//               $authManager->assign($role,$admin->id);
+//           }else{
+//               //注册用户都为普通管理员 找到普通管理员角色
+//               $role = $authManager->getRole('adminuser');
+//               //将当前用户追加到普通管理员角色中
+//               $authManager->assign($role,$admin->id);
+//           }
 
 
             \yii::$app->session->setFlash('success','注册成功');
