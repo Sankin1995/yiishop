@@ -16,6 +16,10 @@ use yii\web\Controller;
 class AdminController extends Controller
 {
 //    public $defaultAction = 'index';
+    public function actionHome()
+    {
+        return $this->render('home');
+}
     public function actionIndex()
     {
         //创建表单模型对象
@@ -35,7 +39,7 @@ class AdminController extends Controller
                     //更改最后登录时间
                     $admin_user->last_login_at = time();
                     $admin_user->save();
-                    return $this->redirect(['admin/list']);
+                    return $this->redirect(['admin/home']);
                 }else{
 //                    \yii::$app->session->setFlash('danger','密码错误');
                     $model->addError("password_hash","密码错误");
@@ -81,7 +85,7 @@ class AdminController extends Controller
            $authManager = \yii::$app->authManager;
 //           if($admin->username == "admin"){
            //找到默认的普通管理员角色
-               $role = $authManager->getRole('adminuser');
+               $role = $authManager->getRole('user');
                //将当前注册的用户赋予角色
                $authManager->assign($role,$admin->id);
 //           }else{
@@ -92,10 +96,10 @@ class AdminController extends Controller
 //           }
 
 
-            \yii::$app->session->setFlash('success','注册成功');
+            \yii::$app->session->setFlash('success','注册成功,您的账户处于待审核状态，请等待总管理员审核···');
             //自动登录
 //            \yii::$app->user->login($admin,3600*24);
-            return $this->redirect(['admin/list']);
+            return $this->redirect(['admin/index']);
         }
         return $this->render('reg',['model'=>$admin]);
     }
@@ -116,24 +120,56 @@ class AdminController extends Controller
 
     public function actionEdit($id)
     {
+//        $this->enableCsrfValidation = false;
         $adminOne = Admin::findOne($id);
-        //判断是否是总管理员
+        $OnePassword = $adminOne->password_hash;
         $request = \yii::$app->request;
         if($request->isPost){
+            $data = $request->post();
             //绑定数据
-            $adminOne->load($request->post());
-            if($adminOne->validate()){
+            $adminOne->load($data);
+            if($data['Admin']['password_hash'] === ""){
+                $adminOne->password_hash = $OnePassword;
+            }else{
                 $adminOne->password_hash = \yii::$app->security->generatePasswordHash($adminOne->password_hash);
-                $adminOne->auth_key = \yii::$app->security->generateRandomString();
-                $adminOne->save();
-                \yii::$app->session->setFlash('success','编辑成功');
-                return $this->redirect(['admin/list']);
             }
+                if($adminOne->validate()){
+                    $adminOne->auth_key = \yii::$app->security->generateRandomString();
+                    $adminOne->save();
+                    \yii::$app->session->setFlash('success','编辑成功');
+                    return $this->redirect(['admin/list']);
+                }
+
         }
 
         return $this->render('edit',['model'=>$adminOne]);
     }
+    public function actionUpdate($id)
+    {
+//        $this->enableCsrfValidation = false;
+        $adminOne = Admin::findOne($id);
+        $OnePassword = $adminOne->password_hash;
+        $request = \yii::$app->request;
+        if($request->isPost){
+            $data = $request->post();
+            //绑定数据
+            $adminOne->load($data);
+            if($data['Admin']['password_hash'] === ""){
+                $adminOne->password_hash = $OnePassword;
+            }else{
+                $adminOne->password_hash = \yii::$app->security->generatePasswordHash($adminOne->password_hash);
+            }
+            if($adminOne->validate()){
+                $adminOne->auth_key = \yii::$app->security->generateRandomString();
+                $adminOne->save();
+                \yii::$app->session->setFlash('success','编辑成功');
+                return $this->redirect(['admin/home']);
+            }
 
+        }
+
+        return $this->render('edit',['model'=>$adminOne]);
+    }
 
 
 }

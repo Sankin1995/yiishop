@@ -64,6 +64,11 @@ class ArticleCategoryController extends \yii\web\Controller
         if($request->isPost){
             //接收数据
             $data = $request->post();
+//            var_dump($data);exit;
+            if($model->name != $data['ArticleCategory']['name']){
+                \yii::$app->session->setFlash('danger','不能修改分类名称，如想修改请删除重新添加');
+                return $this->redirect(['article-category/edit','id'=>$model->id]);
+            }
             //绑定数据
             $model->load($data);
             //验证数据

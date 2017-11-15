@@ -63,6 +63,10 @@ class GoodsCategoryController extends \yii\web\Controller
         if($request->isPost){
                 //接受数据
             $data = $request->post();
+            if($oneCate->name != $data['GoodsCategory']['name']){
+                \yii::$app->session->setFlash('danger','不能修改分类名称，如想修改请删除重新添加');
+                return $this->redirect(['goods-category/edit','id'=>$oneCate->id]);
+            }
 //            var_dump($data);exit;
             //绑定数据
             $oneCate->load($data);

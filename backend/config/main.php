@@ -24,9 +24,10 @@ return [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
 //            白名单
-            'rbac/*',
+//            'rbac/*',
            'admin/index',
-            'admin/logout'
+            'admin/logout',
+            'admin/home'
 //            'some-controller/some-action',
             // The actions listed here will be allowed to everyone including guests.
             // So, 'admin/*' should not appear here in the production, of course.

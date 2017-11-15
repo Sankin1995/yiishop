@@ -262,7 +262,15 @@ use yii\helpers\Html;
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="edit?id=<?=Yii::$app->user->id?>" class="btn btn-default btn-flat">编辑个人信息</a>
+                                <?php
+                                $id = Yii::$app->user->id;
+                    if(\yii::$app->user->identity->username === "admin"){
+                        echo '<a href="edit?id='.$id.'" class="btn btn-default btn-flat">编辑个人信息</a>';
+                    }else{
+                        echo '<a href="update?id='.$id.'" class="btn btn-default btn-flat">编辑个人信息</a>';
+                    }
+                                ?>
+
                             </div>
                             <div class="pull-right">
                                 <?= Html::a(
