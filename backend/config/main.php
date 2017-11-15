@@ -23,6 +23,7 @@ return [
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
+//            白名单
             'rbac/*',
            'admin/index',
             'admin/logout'

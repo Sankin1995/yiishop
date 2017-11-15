@@ -80,8 +80,10 @@ class AdminController extends Controller
             //创建RBAC组件对象
            $authManager = \yii::$app->authManager;
 //           if($admin->username == "admin"){
-//               $role = $authManager->getRole('administrator');
-//               $authManager->assign($role,$admin->id);
+           //找到默认的普通管理员角色
+               $role = $authManager->getRole('adminuser');
+               //将当前注册的用户赋予角色
+               $authManager->assign($role,$admin->id);
 //           }else{
 //               //注册用户都为普通管理员 找到普通管理员角色
 //               $role = $authManager->getRole('adminuser');

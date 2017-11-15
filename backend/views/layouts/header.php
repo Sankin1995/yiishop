@@ -262,7 +262,7 @@ use yii\helpers\Html;
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="logout" class="btn btn-default btn-flat">切换用户</a>
+                                <a href="edit?id=<?=Yii::$app->user->id?>" class="btn btn-default btn-flat">编辑个人信息</a>
                             </div>
                             <div class="pull-right">
                                 <?= Html::a(
